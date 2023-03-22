@@ -1,0 +1,19 @@
+.main-div {
+  background-color: white;
+  box-shadow: rgb(240, 237, 237) 0px 0px 10px 10px;
+  margin: 2em 4em 2em 4em;
+  min-height: 60vh;
+  border-radius: 10px;
+  padding: 2em;
+}
+.main-div .main-box .main-top-wrapper {
+  border-bottom: 1px solid rgb(238, 229, 229);
+}
+.main-div .main-box .main-top-wrapper div {
+  display: flex;
+  flex-direction: row;
+  margin: 5px 0px 5px 0px;
+}
+.main-div .main-box .main-top-wrapper .top-part {
+  justify-content: space-between;
+}

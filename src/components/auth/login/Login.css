@@ -1,0 +1,121 @@
+.login-page-div {
+  margin-top: -2rem;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  padding-bottom: 1000px;
+}
+
+.login-page-div .login-box {
+  position: relative;
+  top: 3rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem auto 5rem auto;
+  /* border: 1px solid rgb(191, 176, 176); */
+  padding: 2rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: 0px 2px 5px 2px rgb(202, 199, 199);
+  height: max-content;
+}
+.login-page-div .login-box .login-logo {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #cb11ab;
+}
+.login-page-div .login-box .login-form {
+  padding: 0.1rem;
+}
+.login-page-div .login-box .login-form #login {
+  font-size: 2rem;
+  font-weight: 300;
+}
+.login-page-div .login-box .login-form #log-box {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.login-page-div .login-box .login-form #log-box span {
+  color: rgb(161, 158, 158);
+  margin-bottom: 0.2rem;
+}
+.login-page-div .login-box .login-form #log-box input {
+  border: 0.5px solid rgb(225, 219, 219);
+  width: 300px;
+  padding: 0.5rem;
+  font-size: 14px;
+  border-radius: 0.2rem;
+}
+.login-page-div .login-box .login-form #log-box input:focus {
+  outline: 1px solid #cb11ab;
+}
+.login-page-div .login-box .login-form .login-submit-button-box {
+  width: 100%;
+  margin: 1rem 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-page-div
+  .login-box
+  .login-form
+  .login-submit-button-box
+  .login-submit-button {
+  border: none;
+  width: 100%;
+  padding: 0.5rem 0 0.5rem 0;
+  border-radius: 0.3rem;
+  background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+}
+.login-page-div
+  .login-box
+  .login-form
+  .login-submit-button-box
+  .login-submit-button:hover {
+  background: linear-gradient(to bottom, #fae4b1, #f6ce67);
+  cursor: pointer;
+}
+.login-page-div .new-to-box {
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.login-page-div .new-to-box .new-to {
+  display: flex;
+  flex-direction: row;
+}
+.login-page-div .new-to-box .new-to .before {
+  border: none;
+  height: 1px;
+  width: 7rem;
+  border-top: 1px solid rgb(204, 200, 200);
+}
+.login-page-div .new-to-box .new-to span {
+  margin: 0px 0.3rem 0px 0.3rem;
+  color: rgb(148, 146, 146);
+  font-size: 0.9rem;
+}
+.login-page-div .sign-up-ref-button {
+  font-weight: 300;
+  margin: 1rem 0 0 0;
+  border: 1px solid grey;
+  border-radius: 2px;
+  padding: 5px;
+  background: linear-gradient(to bottom, #f5f4f1, #e5e3de);
+  width: 19rem;
+}
+.login-page-div .sign-up-ref-button:hover {
+  cursor: pointer;
+  background: linear-gradient(to bottom, #e9e9e7, #f3f2ef);
+}

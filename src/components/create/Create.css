@@ -1,0 +1,24 @@
+.create-submit-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.create-submit-div .create-submit-box {
+  margin: 2rem 0px 3rem 0px;
+  padding: 2rem 0px 3rem 0px;
+  border: 1px solid rgb(237, 229, 229);
+  width: 90%;
+  box-shadow: rgb(224, 218, 218) 0px 0px 10px 10px;
+  border-radius: 10px;
+}
+.create-submit-div .create-submit-box .create-submit {
+  background-color: green;
+  width: 90%;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 800;
+}
