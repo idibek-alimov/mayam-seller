@@ -3,5 +3,5 @@ export interface Inventory {
   product_size: string;
   price?: number;
   quantity: number;
-  id: number;
+  id?: number;
 }

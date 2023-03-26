@@ -1,0 +1,32 @@
+.input-box {
+  width: 80%;
+  position: relative;
+}
+.input-box .clear-icon {
+  height: 20px;
+  background-color: rgb(231, 219, 219);
+  padding: 3px;
+  border-radius: 100%;
+  width: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  cursor: pointer;
+}
+.input-box .input-itself {
+  width: 100%;
+  border: none;
+  outline: 1px solid gray;
+  padding: 10px 5px 10px 5px;
+  font-size: 15px;
+  font-weight: 400;
+  border-radius: 2px;
+}
+.input-box .input-itself:focus {
+  outline: 1px solid rgb(124, 31, 211);
+}
+.input-box .text-area {
+  height: 200px;
+}

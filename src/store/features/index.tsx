@@ -6,6 +6,7 @@ import StagetwoSlice from "./productcreate/StagetwoSlice";
 import searchSlice from "./search/searchSlice";
 import tokenSlice from "./token/tokenSlice";
 import userSlice from "./user/userSlice";
+import createArticlesSlice from "./createArticles/createArticlesSlice";
 const rootReducer = combineReducers({
   counter: counterReducer,
   cart: cartReducer,
@@ -14,5 +15,6 @@ const rootReducer = combineReducers({
   search: searchSlice,
   token: tokenSlice,
   user: userSlice,
+  createArticles: createArticlesSlice,
 });
 export default rootReducer;

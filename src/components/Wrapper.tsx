@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./auth/login/Login";
 import Signup from "./auth/signup/Signup";
 import Create from "./create/Create";
+import NewCreate from "./newCreate/Create";
 import Profile from "./profile/Profile";
 const Wrapper = () => {
   return (
@@ -15,6 +16,7 @@ const Wrapper = () => {
         <Route path="login/" element={<Login />} />
         <Route path="signup/" element={<Signup />} />
         <Route path="create/" element={<Create />} />
+        <Route path="newcreate/" element={<NewCreate />} />
       </Routes>
     </div>
   );

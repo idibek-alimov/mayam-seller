@@ -1,0 +1,89 @@
+.new-create-div {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: max-content;
+  background-color: rgb(247, 241, 241);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20px;
+}
+.new-create-div .new-create-box {
+  background-color: white;
+  width: 80%;
+  min-height: fit-content;
+  height: fit-content;
+  margin-top: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  padding: 30px 0 30px 0;
+}
+.new-create-div .new-create-box .information-text {
+  font-weight: 800;
+  font-size: 20px;
+  width: 90%;
+  text-align: left;
+  margin-bottom: 20px;
+}
+.new-create-div .new-create-box .category-box {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.gray-name {
+  color: gray;
+}
+
+/* ////////////////////////ColorAndSize START/////////////////////////////////// */
+
+.color-and-size-div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.color-and-size-div .add-color-button {
+  background-color: blueviolet;
+  border: none;
+  padding: 12px 40px 12px 40px;
+  border-radius: 5px;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+}
+.color-and-size-div .color-box-wrapper {
+  width: 100%;
+  height: fit-content;
+  padding: 20px 0 20px 0;
+}
+
+/* ////////////////////////ColorAndSize END/////////////////////////////////// */
+
+/* ////////////////////////ColorBOX START/////////////////////////////////// */
+
+.color-box-div {
+  width: 250px;
+  height: 80px;
+  border: 1px solid blueviolet;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+}
+.color-box-div .color-box-left {
+  width: 30%;
+  height: 100%;
+  border-right: 1px solid rgb(185, 175, 175);
+}
+.color-box-div .color-box-right {
+  width: 70%;
+  padding: 20px 0px 0px 20px;
+}
+
+/* ////////////////////////ColorBOX END/////////////////////////////////// */

@@ -10,7 +10,7 @@ export interface ProductDescribeProp {
   description: string;
 }
 
-interface DimensionsProp {
+export interface DimensionsProp {
   length: number;
   width: number;
   height: number;
@@ -49,7 +49,6 @@ const ProductDescribe = ({
     } else {
       setProduct({ ...product, description: event.currentTarget.value });
     }
-    console.log(product);
   };
 
   function funcCategory(name: string | string[]) {

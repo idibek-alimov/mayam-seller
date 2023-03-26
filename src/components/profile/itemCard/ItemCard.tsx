@@ -1,30 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./ItemCard.css";
 import { CartArticle } from "../../../store/features/cart/cartSlice";
-import { useAppSelector } from "../../../store/hooks";
-import axios from "axios";
-import { url } from "../../../extra/axios";
+import Axios, { url } from "../../../extra/axios";
 
 const ItemCard: React.FC<CartArticle> = (article: CartArticle): JSX.Element => {
   const [pic, setPic] = useState<string>();
 
-  const access_token = useAppSelector((state) => state.token.access_token);
-
-  let custom_headers = access_token
-    ? { Authorization: String("Bearer " + access_token) }
-    : { Authorization: String("") };
-
-  const axioss = axios.create({
-    headers: custom_headers,
-    baseURL: "http://localhost:8080/api/product",
-  });
+  const axios = Axios();
   // "/uploads/" + article.pictures[0].src.split("/").pop()
   // useEffect(() => {
   //   console.log(article);
   //   setPic("/uploads/" + article.pictures[0].src.split("/").pop());
   // }, [article]);
   const onDeleteHandle = () => {
-    axioss
+    axios
       .delete(url + "/api/article/delete/" + article.id)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
