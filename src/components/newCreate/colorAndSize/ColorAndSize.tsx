@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import ArticleCreateProp, {
   emptyArticle,
 } from "../../../extra/types/ArticleCreateProp";
@@ -9,87 +9,242 @@ import BrandOrTag from "../brandortag/BrandOrTag";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { addColors } from "../../../store/features/createArticles/createArticlesSlice";
 import createArticleSlice from "../../../store/features/createArticles/createArticlesSlice";
+import { Inventory, emptyInventory } from "../../../extra/types/Inventory";
+import InventoryInput from "./inventoryInput/InventoryInput";
+import { AiOutlinePlus } from "react-icons/ai";
+interface AddPicturesProp {
+  width: string | number;
+  height: string | number;
+  pixels?: boolean;
+}
 
 interface ColorAndSizeProp {
-  articles: ArticleCreateProp[];
+  //articles?: ArticleCreateProp[];
   pics: File[][];
   colors: string[][];
-  category: Category;
-  setArticles: React.Dispatch<React.SetStateAction<any>>;
+  inventories: Inventory[][];
+  //category?: Category;
+  //setArticles?: React.Dispatch<React.SetStateAction<any>>;
   setPics: React.Dispatch<React.SetStateAction<any>>;
   setColors: React.Dispatch<React.SetStateAction<any>>;
-  func: (arr: string[][]) => void;
+  setInventories: React.Dispatch<React.SetStateAction<any>>;
+  func?: (arr: string[][]) => void;
 }
 
 function ColorAndSize({
-  articles,
-  pics,
   colors,
-  category,
-  setArticles,
-  setPics,
   setColors,
-  func,
+  inventories,
+  setInventories,
+  pics,
+  setPics,
 }: ColorAndSizeProp) {
-  const [currentColor, setCurrentColor] = useState(0);
+  //let colorindex = 0;
+  let [colorindex, setColorIndex] = useState<number>(0);
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
-  const dispatch = useAppDispatch();
-  const articlesRedux = useAppSelector((state) => state.createArticles);
-  let [articlesSecond, setArticlesSecond] = useState<ArticleCreateProp[]>([
-    ...emptyArticle,
-  ]);
-  console.log("COlor and Size render");
-  // const [colors, setColors] = useState<string[][]>([[]]);
-
-  //   const [colorArticles, setColorArticles] = useState<ArticleCreateProp[]>([
-  //     ...articles,
-  //   ]);
-  //   const [colorPics, setColorPics] = useState<File[][]>(pics);
-
-  const onColorsChangeHandle = (colorsArray: string[]) => {
-    let colorsPlaceholder: string[][] = colors;
-    colorsPlaceholder[0] = colorsArray;
-    setColors(colorsPlaceholder);
-    // console.log(colors);
-    // let articlePlaceholder = articlesSecond;
-    // articlePlaceholder[0]["color"].push("hi         ");
-    // console.log(articlePlaceholder);
-    // console.log(articlePlaceholder[0].color);
-    //articlePlaceholder[0].color = [...colors];
-    //setArticlesSecond(articlePlaceholder);
-    // articlePlaceholder[0].color = [...colors];
-
-    // dispatch(addColors({ index: 0, color: ["gree", "blue"] }));
-    // console.log(articlesRedux);
-    // console.log("before");
-    // console.log(articlesRedux[0].color);
-    // console.log("after");
+  function handleClick() {
+    forceUpdate();
+  }
+  const onAddColor = () => {
+    console.log("clicked");
+    let placeHolder = colors;
+    let inventoryPlaceHolder = inventories;
+    let picsPlaceholder = pics;
+    placeHolder.push([]);
+    inventoryPlaceHolder.push([emptyInventory]);
+    picsPlaceholder.push([]);
+    setColors(placeHolder);
+    setInventories(inventoryPlaceHolder);
+    setPics(picsPlaceholder);
+    //console.log("inventory after add color", inventoryPlaceHolder);
+    handleClick();
   };
 
-  useEffect(() => {
-    console.log("rerendoercolorchage");
-  }, []);
+  const onRemoveColor = (index: number) => {
+    if (colors.length > 1) {
+      let placeHolder: string[][] = [...colors];
+      let inventoryPlaceHolder: Inventory[][] = [...inventories];
+      let picsPlaceholder: File[][] = [...pics];
+      placeHolder.splice(index, 1);
+      inventoryPlaceHolder.splice(index, 1);
+      picsPlaceholder.splice(index, 1);
+      setColors(placeHolder);
+      setInventories(inventoryPlaceHolder);
+      setPics(picsPlaceholder);
+      //setColorIndex(colorindex - 1);
+      //console.log("inventory after add color", inventoryPlaceHolder);
+      handleClick();
+    }
+  };
+  const onAddSize = () => {
+    let inventoryPlaceHolder: Inventory[][] = [...inventories];
+    inventoryPlaceHolder[colorindex].push(emptyInventory);
+    setInventories(inventoryPlaceHolder);
+    handleClick();
+  };
+  const onRemoveSize = (index: number) => {
+    if (inventories[colorindex].length > 1) {
+      let inventoryPlaceHolder: Inventory[][] = [...inventories];
+      inventoryPlaceHolder[colorindex].splice(index, 1);
+      setInventories(inventoryPlaceHolder);
+      handleClick();
+    }
+  };
+  const onAddPictures = (event: React.FormEvent<HTMLInputElement>) => {
+    if (event.currentTarget.files) {
+      let picsPlaceholder = pics;
+      let piclist = [];
+      for (let i = 0; i < event.currentTarget.files?.length; i++) {
+        piclist.push(event.currentTarget.files[i]);
+      }
+      //let newpics = [...pics[colorindex], ...piclist];
+      picsPlaceholder[colorindex] = [...pics[colorindex], ...piclist];
+      setPics(picsPlaceholder);
+      console.log(picsPlaceholder);
+    }
+
+    handleClick();
+  };
+
+  const AddPictures = ({ width, height, pixels }: AddPicturesProp) => {
+    // if(pixels && pixels){
+    //   let width = Number(width);
+    // }
+    return (
+      <label
+        className="pictures-label"
+        onChange={(event: React.FormEvent<HTMLLabelElement>) => {
+          console.log("label", event);
+        }}
+        htmlFor={String(colorindex)}
+        style={
+          pixels
+            ? { width: Number(width), height: Number(height) }
+            : { width: width, height: height }
+        }
+      >
+        <input
+          name=""
+          type="file"
+          id={String(colorindex)}
+          onChange={onAddPictures}
+          hidden
+          multiple={true}
+        />
+        <div
+          className="pictures-plus-icon"
+          style={
+            pixels
+              ? { width: Number(width), height: Number(height) }
+              : { width: width, height: height }
+          }
+        >
+          <div className="plus-icon-div">
+            <AiOutlinePlus className="plus-icon" />
+            <div className="pictures-add-description">
+              <span className="pictures-highlight-text">Выберите фото</span>
+              <span className="pictures-ordinary-text gray-name">
+                Добавьте до 30 фото болше не надо добавитть
+              </span>
+            </div>
+          </div>
+        </div>
+      </label>
+    );
+  };
 
   return (
     <div className="color-and-size-div">
-      <button className="add-color-button">add color</button>
+      <button className="add-color-button" onClick={onAddColor}>
+        add color
+      </button>
       <div className="color-box-wrapper">
-        <ColorBox text="Color 1" />
+        {colors
+          ? colors.map((color, index) => {
+              return (
+                <div
+                  onClick={() => {
+                    setColorIndex(index);
+                    handleClick();
+                    //alert("clicked");
+                  }}
+                >
+                  <ColorBox
+                    text={"Color" + String(index + 1)}
+                    index={index}
+                    func={onRemoveColor}
+                    chosen={colorindex === index}
+                  />
+                </div>
+              );
+            })
+          : ""}
+        {/* <ColorBox text="Color 1" /> */}
       </div>
 
       <div className="category-box" style={{ marginTop: 20 }}>
         <span className="gray-name">Colors</span>
         <BrandOrTag
-          data={colors[0]}
+          data={colors[colorindex]}
           func={function (colorarray: string[]) {
-            console.log("fucntion colled");
-            let arr: string[][] = colors;
-            arr[0] = colorarray;
-            func(arr);
-            //setColors(arr);
-            console.log(colors);
+            let placeholder = colors;
+            placeholder[colorindex] = colorarray;
+            setColors(placeholder);
+            handleClick();
           }}
         />
+      </div>
+      <div
+        className="category-box"
+        style={{ marginTop: 20, alignItems: "flex-start" }}
+      >
+        <span className="gray-name" style={{ marginTop: 10 }}>
+          Inventories
+        </span>
+        <div style={{ width: "80%" }}>
+          {inventories && inventories[colorindex].length != 0
+            ? inventories[colorindex].map((inventory, index) => {
+                return (
+                  <InventoryInput
+                    inventory={inventory}
+                    func={function (inventory: Inventory) {
+                      let inventoriesPlaceHolder = inventories;
+                      inventoriesPlaceHolder[colorindex][index] = inventory;
+                      setInventories(inventoriesPlaceHolder);
+                      console.log(inventories);
+                      handleClick();
+                    }}
+                    delfunc={() => onRemoveSize(index)}
+                  />
+                );
+              })
+            : ""}
+          <div onClick={onAddSize}>add color</div>
+        </div>
+      </div>
+      <div className="pictures-div">
+        <span className="pictures-text">
+          Pictures for color {colorindex + 1}
+        </span>
+        <div className="pictures-box-big">
+          {pics[colorindex].length != 0 ? (
+            <div className="pictures-box">
+              {pics[colorindex].map((pic, index) => {
+                return (
+                  <div key={index} className="picture-wrapper">
+                    <img src={URL.createObjectURL(pic)} alt="nopic" />
+                  </div>
+                );
+              })}
+              <div className="picture-wrapper">
+                <AddPictures width={200} height={240} />
+              </div>
+            </div>
+          ) : (
+            <AddPictures width="100%" height={300} />
+          )}
+        </div>
       </div>
     </div>
   );

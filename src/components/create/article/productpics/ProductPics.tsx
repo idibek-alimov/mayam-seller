@@ -74,23 +74,6 @@ const ProductPics = ({ articleIndex, pics, setState }: PicsProp) => {
               onInputChangeHandle(event, IndexOfArticle);
               console.log("div ", IndexOfArticle);
             }}
-            //   onChange={(event) => {
-            //     let piclist = [];
-
-            //     if (event.target.files) {
-            //       for (let i = 0; i < event.target.files?.length; i++) {
-            //         piclist.push(event.target.files[i]);
-            //       }
-            //       let articlePics: File[] = articles[articleIndex]["pics"];
-            //       let articleData = articles;
-            //       //articlePics = articlePics.filter((item) => pic.name !== item.name);
-            //       articlePics = [...articlePics, ...piclist];
-            //       articleData[articleIndex]["pics"] = articlePics;
-            //       setState(articleData);
-            //       //setPics([...pics, ...piclist]);
-            //     }
-            //   }
-            // }
             hidden
             multiple={true}
           />

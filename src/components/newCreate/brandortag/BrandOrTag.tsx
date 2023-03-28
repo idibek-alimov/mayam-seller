@@ -86,9 +86,9 @@ function BrandOrTag({ data, func, linkForAxios, limit }: FancyProp) {
     >
       <div className="brand-box">
         {data && data.length != 0
-          ? data.map((item) => {
+          ? data.map((item, index) => {
               return (
-                <div className="chosen-item-box ">
+                <div className="chosen-item-box " key={index}>
                   <label className="item-name">{item}</label>
                   <img
                     src={"close500.png"}
