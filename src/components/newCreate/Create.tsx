@@ -11,200 +11,217 @@ import NameAndDescription, {
   emptyNameAndDescription,
 } from "../../extra/types/NameAndDescription";
 import BrandOrTag from "./brandortag/BrandOrTag";
-import BrandsAndTags, {
-  emptyBrandsAndTags,
-} from "../../extra/types/BrandsAndTags";
 import ArticleCreateProp, {
   emptyArticle,
 } from "../../extra/types/ArticleCreateProp";
 import ColorAndSize from "./colorAndSize/ColorAndSize";
 import { Inventory, emptyInventory } from "../../extra/types/Inventory";
+import { ProductToForm } from "../../extra/helperfunction/ProductInfoToForm";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../store/hooks";
 
 function Create() {
   const [category, setCategory] = useState<Category>(emptyCategory);
   const [dimensions, setDimensions] = useState<Dimensions>(emptyDimensions);
   const [nameAndDescription, setNameAndDescription] =
     useState<NameAndDescription>(emptyNameAndDescription);
-  const [brandsAndTags, setBrandsAndTags] =
-    useState<BrandsAndTags>(emptyBrandsAndTags);
-  let [articles, setArticles] = useState<ArticleCreateProp[]>([
-    ...emptyArticle,
-  ]);
-  let [colors, setColors] = useState<string[][]>([[]]);
+  const [tags, setTags] = useState<string[]>([]);
+  //let [articles, setArticles] = useState<ArticleCreateProp[]>([
+  //  ...emptyArticle,
+  //]);
+  let [colors, setColors] = useState<string[]>([""]);
   let [inventories, setInventories] = useState<Inventory[][]>([
     [emptyInventory],
   ]);
   const [pics, setPics] = useState<File[][]>([[]]);
   const axios = Axios();
+  const navigate = useNavigate();
+  const access_token = useAppSelector((state) => state.token.access_token);
 
-  ////////////////////////ColorAndSize START///////////////////////////////////
-  ///////////////ColorBOX START////////////////////
-  // interface TextProp {
-  //   text: string;
-  // }
-  // function ColorBox({ text }: TextProp) {
-  //   return (
-  //     <div className="color-box-div">
-  //       <div className="color-box-left"></div>
-  //       <div className="color-box-right">
-  //         <span>{text}</span>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  const onSubmitHandle = (event: React.FormEvent<HTMLFormElement>) => {
+    alert("Form submitting");
+    event.preventDefault();
+    let new_form_data = new FormData();
+    new_form_data = ProductToForm({
+      product: nameAndDescription,
+      inventory: inventories[0],
+      color: { name: colors[0] },
+      category: category,
+      tags: tags,
+      dimensions: dimensions,
+      picture: pics[0],
+      discount: { percentage: 20 },
+      gender: { name: "male" },
+      sellerArticle: "123523dss23",
+    });
 
-  ///////////////ColorBOX END////////////////////
+    axios
+      .post(url + "/api/product/create", new_form_data)
+      .then((res) => {
+        console.log(res.data);
+        for (let i = 1; i < colors.length; i++) {
+          axios
+            .post(
+              url + `/api/product/addarticle/${res.data.id}`,
 
-  // function ColorAndSize() {
-  //   const [data, setData] = useState<string[]>(colors[0]);
+              ProductToForm({
+                inventory: inventories[i],
+                color: { name: colors[i] },
+                picture: pics[i],
+                sellerArticle: "123523dss23",
+              })
+            )
+            .then((response) => console.log(res))
+            .catch((err) => console.log(err));
+        }
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    if (!access_token) {
+      navigate("/login");
+    }
+  }, []);
 
-  //   const [, forceUpdate] = useReducer((x) => x + 1, 0);
+  if (category.name === "") {
+    return (
+      <div className="new-create-div">
+        <div className="new-create-box">
+          <span className="information-text">
+            Information about the product
+          </span>
 
-  //   function handleClick() {
-  //     forceUpdate();
-  //   }
-  //   return (
-  //     <div className="color-and-size-div">
-  //       <button className="add-color-button">add color</button>
-  //       <div className="color-box-wrapper">
-  //         <ColorBox text="Color 1" />
-  //       </div>
-
-  //       <div className="category-box" style={{ marginTop: 20 }}>
-  //         <span className="gray-name">Colors</span>
-  //         {data ? (
-  //           <BrandOrTag
-  //             data={data}
-  //             func={function (colorarray: string[]) {
-  //               console.log(colorarray);
-  //               setData(colorarray);
-  //               handleClick();
-  //               // console.log("function called");
-  //               // let colorPlaceholder = colors;
-  //               // colorPlaceholder[0] = colorarray;
-  //               // setColors(colorPlaceholder);
-  //               // console.log("after set colors", colors);
-  //             }}
-  //           />
-  //         ) : (
-  //           ""
-  //         )}
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  ////////////////////////ColorAndSize END///////////////////////////////////
-
-  // if (category.name === "") {
-  //   return (
-  //     <div className="new-create-div">
-  //       <div className="new-create-box">
-  //         <span className="information-text">
-  //           Information about the product
-  //         </span>
-
-  //         <div className="category-box">
-  //           <span>Category</span>
-  //           <InputWithChooseList
-  //             chosenCategory={category}
-  //             func={function (category: Category) {
-  //               console.log(category);
-  //               setCategory(category);
-  //             }}
-  //           />
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // } else {
-  return (
-    <div className="new-create-div">
-      <div className="new-create-box">
-        <span className="information-text">Information about the product</span>
-
-        <div className="category-box">
-          <span className="gray-name">Category</span>
-          <InputWithChooseList
-            chosenCategory={category}
-            func={function (category: Category) {
-              console.log(category);
-              setCategory(category);
-            }}
-          />
-        </div>
-        <div className="category-box">
-          <span className="gray-name">Dimensions</span>
-          <DimensionsComponent
-            dimensions={dimensions}
-            func={function (dimensions: Dimensions) {
-              setDimensions(dimensions);
-            }}
-          />
-        </div>
-        <div className="category-box" style={{ marginTop: 20 }}>
-          <span className="gray-name">Name</span>
-          <SimpleInput
-            text={nameAndDescription.name}
-            func={function (text: string) {
-              console.log(text);
-              setNameAndDescription({ ...nameAndDescription, name: text });
-            }}
-          />
-        </div>
-        <div className="category-box" style={{ marginTop: 20 }}>
-          <span className="gray-name">Brand</span>
-          <BrandOrTag
-            data={brandsAndTags.brands}
-            func={function (brands: string[]) {
-              setBrandsAndTags({ ...brandsAndTags, brands: brands });
-            }}
-            //linkForAxios="/api/brand/name/similar/"
-          />
-        </div>
-        <div className="category-box" style={{ marginTop: 20 }}>
-          <span className="gray-name">Tags</span>
-          <BrandOrTag
-            data={brandsAndTags.tags}
-            func={function (tags: string[]) {
-              setBrandsAndTags({ ...brandsAndTags, tags: tags });
-            }}
-            linkForAxios="/api/brand/name/similar/"
-          />
+          <div className="category-box">
+            <span>Category</span>
+            <InputWithChooseList
+              chosenCategory={category.name}
+              func={function (name: string) {
+                console.log(category);
+                setCategory({ ...category, name: name });
+              }}
+              linkText={{
+                firstLink: "/api/category/common/30",
+                secondLink: "/api/category/name/similar/",
+              }}
+            />
+          </div>
         </div>
       </div>
-      <div className="new-create-box">
-        <span className="information-text">Description</span>
-        <div className="category-box" style={{ marginTop: 20 }}>
-          <SimpleInput
-            text={nameAndDescription.description}
-            func={function (text: string) {
-              console.log(nameAndDescription);
-              setNameAndDescription({
-                ...nameAndDescription,
-                description: text,
-              });
-            }}
-            textArea={true}
-          />
-        </div>
+    );
+  } else {
+    return (
+      <div className="new-create-div">
+        <form
+          style={{ width: "100%" }}
+          className="new-create-div"
+          onSubmit={onSubmitHandle}
+        >
+          <div className="new-create-box">
+            <span className="information-text">
+              Information about the product
+            </span>
+
+            <div className="category-box">
+              <span className="gray-name">Category</span>
+              <InputWithChooseList
+                chosenCategory={category.name}
+                func={function (name: string) {
+                  //console.log(category);
+                  setCategory({ ...category, name: name });
+                }}
+                linkText={{
+                  firstLink: "/api/category/common/30",
+                  secondLink: "/api/category/name/similar/",
+                }}
+              />
+            </div>
+            <div className="category-box">
+              <span className="gray-name">Dimensions</span>
+              <DimensionsComponent
+                dimensions={dimensions}
+                func={function (dimensions: Dimensions) {
+                  setDimensions(dimensions);
+                }}
+              />
+            </div>
+            <div className="category-box" style={{ marginTop: 20 }}>
+              <span className="gray-name">Name</span>
+              <SimpleInput
+                text={nameAndDescription.name}
+                func={function (text: string) {
+                  console.log(text);
+                  setNameAndDescription({ ...nameAndDescription, name: text });
+                }}
+              />
+            </div>
+            <div className="category-box" style={{ marginTop: 20 }}>
+              <span className="gray-name">Brand</span>
+              <SimpleInput
+                text={nameAndDescription.brand}
+                func={function (text: string) {
+                  console.log(text);
+                  setNameAndDescription({ ...nameAndDescription, brand: text });
+                }}
+              />
+            </div>
+            {/* <div className="category-box" style={{ marginTop: 20 }}>
+              <span className="gray-name">Brand</span>
+              <BrandOrTag
+                data={brandsAndTags.brands}
+                func={function (brands: string[]) {
+                  setBrandsAndTags({ ...brandsAndTags, brands: brands });
+                }}
+                //linkForAxios="/api/brand/name/similar/"
+              />
+            </div> */}
+            <div className="category-box" style={{ marginTop: 20 }}>
+              <span className="gray-name">Tags</span>
+              <BrandOrTag
+                data={tags}
+                func={function (tags: string[]) {
+                  setTags(tags);
+                }}
+                linkForAxios="/api/brand/name/similar/"
+              />
+            </div>
+          </div>
+          <div className="new-create-box">
+            <span className="information-text">Description</span>
+            <div className="category-box" style={{ marginTop: 20 }}>
+              <SimpleInput
+                text={nameAndDescription.description}
+                func={function (text: string) {
+                  console.log(nameAndDescription);
+                  setNameAndDescription({
+                    ...nameAndDescription,
+                    description: text,
+                  });
+                }}
+                textArea={true}
+              />
+            </div>
+          </div>
+          <div className="new-create-box">
+            <span className="information-text">Description</span>
+            <div className="category-box" style={{ marginTop: 20 }}>
+              <ColorAndSize
+                colors={colors}
+                setColors={setColors}
+                inventories={inventories}
+                setInventories={setInventories}
+                pics={pics}
+                setPics={setPics}
+              />
+            </div>
+          </div>
+          <div className="new-create-box">
+            <button type="submit">Create product</button>
+          </div>
+        </form>
       </div>
-      <div className="new-create-box">
-        <span className="information-text">Description</span>
-        <div className="category-box" style={{ marginTop: 20 }}>
-          <ColorAndSize
-            colors={colors}
-            setColors={setColors}
-            inventories={inventories}
-            setInventories={setInventories}
-            pics={pics}
-            setPics={setPics}
-          />
-        </div>
-      </div>
-    </div>
-  );
-  // }
+    );
+  }
 }
 
 export default Create;

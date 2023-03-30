@@ -10,8 +10,18 @@
   padding: 12px 40px 12px 40px;
   border-radius: 5px;
   color: white;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.color-and-size-div .add-color-button span {
+  margin-left: 6px;
+}
+.color-and-size-div .add-color-button:hover {
+  background-color: rgb(154, 69, 235);
 }
 .color-and-size-div .color-box-wrapper {
   width: 100%;
@@ -46,16 +56,38 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
-.color-and-size-div .pictures-div .pictures-box .picture-wrapper {
+.color-and-size-div .picture-wrapper {
   position: relative;
 }
-.color-and-size-div .pictures-div .pictures-box .picture-wrapper img {
+
+.color-and-size-div .picture-wrapper img {
   width: 200px;
   height: 240px;
   margin: 0 10px 10px 0;
   border: 1px solid gray;
   border-radius: 4px;
+  cursor: pointer;
+  object-fit: contain;
 }
+.color-and-size-div .picture-wrapper .pic-delete-icon {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  color: gray;
+  z-index: 99;
+  bottom: 0;
+  right: 0;
+  margin: 0 20px 20px 0;
+  display: none;
+  cursor: pointer;
+}
+.color-and-size-div .picture-wrapper .pic-delete-icon:hover {
+  display: block;
+}
+.color-and-size-div .picture-wrapper img:hover + .pic-delete-icon {
+  display: block;
+}
+
 .color-and-size-div .pictures-label {
   width: 100%;
   background-color: yellow !important;
@@ -116,4 +148,23 @@
   color: blueviolet;
   font-weight: 700;
   font-size: 17px;
+}
+
+.add-size-box {
+  width: 100%;
+  /* background-color: yellow; */
+
+  margin: 10px;
+}
+.add-size-box div {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+.add-size-box .add-size-icon {
+  color: blueviolet;
+}
+.add-size-box .add-size-text {
+  color: blueviolet;
+  margin-left: 10px;
 }

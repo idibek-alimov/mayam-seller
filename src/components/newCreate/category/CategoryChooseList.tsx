@@ -2,29 +2,50 @@ import React, { useState, useEffect } from "react";
 import "./InputWithChooseList.css";
 import { Category } from "../../../extra/types/Category";
 import Axios, { url } from "../../../extra/axios";
+import { ObjectWithName } from "../../../extra/types/ObjectWithName";
+interface LinkProp {
+  firstLink: string;
+  secondLink: string;
+}
 interface PropInput {
-  chosenCategory: Category;
-  func: (category: Category) => void;
-  linktext?: string;
+  chosenCategory: string;
+  func: (name: string) => void;
+  linkText: LinkProp;
 }
 
-const InputWithChooseList = ({ chosenCategory, func, linktext }: PropInput) => {
-  const [category, setCategory] = useState({ text: "", valid: false });
-  const [data, setData] = useState<Category[]>([]);
+const InputWithChooseList = ({ chosenCategory, func, linkText }: PropInput) => {
+  const [category, setCategory] = useState({
+    text: chosenCategory,
+    valid: false,
+  });
+  const [data, setData] = useState<ObjectWithName[]>([]);
   const [show, setShow] = useState<Boolean>(false);
   const axios = Axios();
+  // let firstLink: string;
+  // let secondLink: string;
+  // useEffect(() => {
+  //   if (linkText && linkText.firstLink && linkText.secondLink) {
+  //     firstLink = linkText.firstLink;
+  //     secondLink = linkText.secondLink;
+  //   } else {
+  //     firstLink = "/api/category/common/30";
+  //     secondLink = "/api/category/name/similar/";
+  //   }
+  // }, []);
 
   const onChangeHandler = (text: string) => {
     setCategory({ text: text, valid: false });
     if (text === "") {
       axios
-        .get(url + "/api/category/common/30")
+        .get(url + linkText.firstLink)
         .then((res) => setData(res.data))
         .catch((err) => console.log(err));
     } else {
       axios
-        .get(url + "/api/category/name/similar/" + text)
+        .get(url + linkText.secondLink + text)
         .then((res) => {
+          console.log(linkText.secondLink);
+          console.log(url + linkText.secondLink + text);
           console.log(res.data);
           setData(res.data);
         })
@@ -49,14 +70,14 @@ const InputWithChooseList = ({ chosenCategory, func, linktext }: PropInput) => {
             onChangeHandler(event.target.value);
             //func(event.target.value);
           }}
-          onBlur={() => {
-            if (category.valid == false) {
-              setCategory({ text: "", valid: false });
-            }
-            setTimeout(() => {
-              setShow(!show);
-            }, 200);
-          }}
+          // onBlur={() => {
+          //   if (category.valid == false) {
+          //     setCategory({ text: "", valid: false });
+          //   }
+          //   setTimeout(() => {
+          //     setShow(!show);
+          //   }, 200);
+          // }}
         />
         <img
           className={show ? "up-png" : "up-png up-png-rotated"}
@@ -77,8 +98,10 @@ const InputWithChooseList = ({ chosenCategory, func, linktext }: PropInput) => {
                     className="category-item"
                     onClick={() => {
                       // alert("fuck you");
-                      setCategory({ text: item.name, valid: true });
-                      func(item);
+                      let placeholder;
+                      if (item.name)
+                        setCategory({ text: item.name, valid: true });
+                      func(item.name);
                       setShow(!show);
                     }}
                   >

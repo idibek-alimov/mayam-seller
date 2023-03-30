@@ -5,33 +5,36 @@ import {
   DimensionsProp,
 } from "../../components/create/productDescribe/ProductDescribe";
 import { Color } from "../types/Color";
+import { Dimensions } from "../types/Dimensions";
 import { Discount } from "../types/Discount";
 import { Inventory } from "../types/Inventory";
 import { ObjectWithName } from "../types/ObjectWithName";
 interface funcProp {
   product?: ProductDescribeProp;
-  size?: InventoryProp[];
+  inventory: Inventory[];
   color?: ObjectWithName;
   category?: ObjectWithName;
-  tags?: ObjectWithName[];
-  brands?: ObjectWithName[];
-  dimensions?: DimensionsProp;
+  tags?: string[];
+  dimensions?: Dimensions;
   picture?: File[];
   discount?: Discount;
+  gender?: ObjectWithName;
+  sellerArticle?: string;
 }
 
 export const ProductToForm = (productObj: funcProp) => {
   type Keys = keyof funcProp;
   let keys = [
     "product",
-    "size",
+    "inventory",
     "color",
     "category",
     "tags",
-    "brands",
     "dimensions",
     "picture",
     "discount",
+    "sellerArticle",
+    "gender",
   ] as const;
   const form_data = new FormData();
   const toBlob = (key: Keys) => {

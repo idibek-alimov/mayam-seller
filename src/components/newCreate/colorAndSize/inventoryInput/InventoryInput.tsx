@@ -1,6 +1,7 @@
 import React from "react";
 import { Inventory } from "../../../../extra/types/Inventory";
 import "./InventoryInput.css";
+import { AiOutlineDelete } from "react-icons/ai";
 
 interface InventoryInputProp {
   inventory: Inventory;
@@ -14,10 +15,8 @@ const InventoryInput = ({ inventory, func, delfunc }: InventoryInputProp) => {
       <div className="input-box">
         <label>Size</label>
         <input
-          value={inventory.product_size}
-          onChange={(event) =>
-            func({ ...inventory, product_size: event.target.value })
-          }
+          value={inventory.size}
+          onChange={(event) => func({ ...inventory, size: event.target.value })}
         />
       </div>
       <div className="input-box">
@@ -41,7 +40,9 @@ const InventoryInput = ({ inventory, func, delfunc }: InventoryInputProp) => {
           }
         />
       </div>
-      <div onClick={() => delfunc()}>Delete</div>
+      <div onClick={() => delfunc()} className="input-box size-delete-box">
+        <AiOutlineDelete style={{ width: 20, height: 20 }} />
+      </div>
     </div>
   );
 };

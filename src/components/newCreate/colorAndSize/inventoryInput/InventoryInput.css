@@ -24,3 +24,12 @@
 .inventory-box .input-box input:focus {
   border: 1px solid blueviolet;
 }
+.inventory-box .size-delete-box {
+  width: 30px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  cursor: pointer;
+}

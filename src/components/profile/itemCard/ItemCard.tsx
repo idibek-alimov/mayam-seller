@@ -29,7 +29,7 @@ const ItemCard: React.FC<CartArticle> = (article: CartArticle): JSX.Element => {
             <div className="item-card-info">
               <span className="item-card-name">{article.name}</span>
               <span className="item-card-price">
-                {article.inventories[0].price}
+                {/* {article.inventories[0].price} */}
               </span>
             </div>
           </div>

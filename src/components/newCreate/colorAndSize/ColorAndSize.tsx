@@ -11,7 +11,10 @@ import { addColors } from "../../../store/features/createArticles/createArticles
 import createArticleSlice from "../../../store/features/createArticles/createArticlesSlice";
 import { Inventory, emptyInventory } from "../../../extra/types/Inventory";
 import InventoryInput from "./inventoryInput/InventoryInput";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineDelete } from "react-icons/ai";
+import { publicEncrypt } from "crypto";
+import InputWithChooseList from "../category/CategoryChooseList";
+
 interface AddPicturesProp {
   width: string | number;
   height: string | number;
@@ -21,7 +24,7 @@ interface AddPicturesProp {
 interface ColorAndSizeProp {
   //articles?: ArticleCreateProp[];
   pics: File[][];
-  colors: string[][];
+  colors: string[];
   inventories: Inventory[][];
   //category?: Category;
   //setArticles?: React.Dispatch<React.SetStateAction<any>>;
@@ -40,18 +43,18 @@ function ColorAndSize({
   setPics,
 }: ColorAndSizeProp) {
   //let colorindex = 0;
-  let [colorindex, setColorIndex] = useState<number>(0);
+  const [colorindex, setColorIndex] = useState(0);
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
   function handleClick() {
     forceUpdate();
   }
   const onAddColor = () => {
-    console.log("clicked");
+    console.log("clicked and color index", colorindex);
     let placeHolder = colors;
     let inventoryPlaceHolder = inventories;
     let picsPlaceholder = pics;
-    placeHolder.push([]);
+    placeHolder.push("");
     inventoryPlaceHolder.push([emptyInventory]);
     picsPlaceholder.push([]);
     setColors(placeHolder);
@@ -63,7 +66,7 @@ function ColorAndSize({
 
   const onRemoveColor = (index: number) => {
     if (colors.length > 1) {
-      let placeHolder: string[][] = [...colors];
+      let placeHolder: string[] = [...colors];
       let inventoryPlaceHolder: Inventory[][] = [...inventories];
       let picsPlaceholder: File[][] = [...pics];
       placeHolder.splice(index, 1);
@@ -72,9 +75,15 @@ function ColorAndSize({
       setColors(placeHolder);
       setInventories(inventoryPlaceHolder);
       setPics(picsPlaceholder);
-      //setColorIndex(colorindex - 1);
-      //console.log("inventory after add color", inventoryPlaceHolder);
+
       handleClick();
+      if (colorindex > placeHolder.length - 1) {
+        //alert("condition worked");
+        alert("condition met");
+        let newindex: number = colorindex - 1;
+        setColorIndex(0);
+        //alert("after setting color index");
+      }
     }
   };
   const onAddSize = () => {
@@ -106,7 +115,16 @@ function ColorAndSize({
 
     handleClick();
   };
-
+  const onDeleteOneImageHandle = (index: number) => {
+    let imagePlaceholder: File[][] = pics;
+    imagePlaceholder[colorindex].splice(index, 1);
+    setPics(imagePlaceholder);
+    handleClick();
+  };
+  // useEffect(() => {
+  //   alert("inside use effect");
+  //   handleClick();
+  // }, [colorindex]);
   const AddPictures = ({ width, height, pixels }: AddPicturesProp) => {
     // if(pixels && pixels){
     //   let width = Number(width);
@@ -156,8 +174,15 @@ function ColorAndSize({
 
   return (
     <div className="color-and-size-div">
-      <button className="add-color-button" onClick={onAddColor}>
-        add color
+      <button
+        className="add-color-button"
+        onClick={(event) => {
+          event.preventDefault();
+          onAddColor();
+        }}
+      >
+        <AiOutlinePlus />
+        <span>Add color</span>
       </button>
       <div className="color-box-wrapper">
         {colors
@@ -175,6 +200,7 @@ function ColorAndSize({
                     index={index}
                     func={onRemoveColor}
                     chosen={colorindex === index}
+                    oneColor={colors.length != 1 ? false : true}
                   />
                 </div>
               );
@@ -185,14 +211,26 @@ function ColorAndSize({
 
       <div className="category-box" style={{ marginTop: 20 }}>
         <span className="gray-name">Colors</span>
-        <BrandOrTag
+        {/* <BrandOrTag
           data={colors[colorindex]}
           func={function (colorarray: string[]) {
-            let placeholder = colors;
+            let placeholder: string[][] = colors;
+
             placeholder[colorindex] = colorarray;
+
             setColors(placeholder);
             handleClick();
           }}
+        /> */}
+        <InputWithChooseList
+          chosenCategory={colors[colorindex]}
+          func={function (name: string) {
+            let placeholder: string[] = colors;
+            placeholder[colorindex] = name;
+            setColors(placeholder);
+            //console.log(category);
+          }}
+          linkText={{ firstLink: "", secondLink: "/api/color/name/similar/" }}
         />
       </div>
       <div
@@ -203,7 +241,7 @@ function ColorAndSize({
           Inventories
         </span>
         <div style={{ width: "80%" }}>
-          {inventories && inventories[colorindex].length != 0
+          {inventories && inventories[colorindex]
             ? inventories[colorindex].map((inventory, index) => {
                 return (
                   <InventoryInput
@@ -220,7 +258,12 @@ function ColorAndSize({
                 );
               })
             : ""}
-          <div onClick={onAddSize}>add color</div>
+          <div className="add-size-box">
+            <div onClick={onAddSize}>
+              <AiOutlinePlus className="add-size-icon" />
+              <span className="add-size-text">Add Size</span>
+            </div>
+          </div>
         </div>
       </div>
       <div className="pictures-div">
@@ -228,12 +271,17 @@ function ColorAndSize({
           Pictures for color {colorindex + 1}
         </span>
         <div className="pictures-box-big">
-          {pics[colorindex].length != 0 ? (
+          {pics[colorindex] && pics[colorindex].length != 0 ? (
             <div className="pictures-box">
               {pics[colorindex].map((pic, index) => {
                 return (
                   <div key={index} className="picture-wrapper">
                     <img src={URL.createObjectURL(pic)} alt="nopic" />
+                    <AiOutlineDelete
+                      className="pic-delete-icon"
+                      width={200}
+                      onClick={() => onDeleteOneImageHandle(index)}
+                    />
                   </div>
                 );
               })}

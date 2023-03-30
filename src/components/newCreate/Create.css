@@ -11,6 +11,12 @@
   align-items: center;
   padding-bottom: 20px;
 }
+.new-create-div * {
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .new-create-div .new-create-box {
   background-color: white;
   width: 80%;

@@ -1,13 +1,14 @@
 export interface Inventory {
   product?: number;
-  product_size: string;
+  size?: string;
   price: number;
   quantity: number;
+  available?: boolean;
   id?: number;
 }
 
 export let emptyInventory: Inventory = {
-  product_size: "",
+  size: "",
   quantity: 1,
   price: 1,
 };

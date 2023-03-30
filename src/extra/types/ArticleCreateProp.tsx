@@ -8,7 +8,7 @@ export default interface ArticleCreateProp {
 }
 export let emptyArticle: ArticleCreateProp[] = [
   {
-    inventories: [{ product_size: "", quantity: 1, price: 0 }],
+    inventories: [{ size: "", quantity: 1, price: 0 }],
     color: [],
   },
 ];

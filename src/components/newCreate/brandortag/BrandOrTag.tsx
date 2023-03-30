@@ -44,6 +44,7 @@ function BrandOrTag({ data, func, linkForAxios, limit }: FancyProp) {
   const onKeyDownHandle = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       func([...data, event.currentTarget.value.trimLeft().trimRight()]);
+      event.preventDefault();
       event.currentTarget.value = "";
     }
   };
@@ -106,7 +107,12 @@ function BrandOrTag({ data, func, linkForAxios, limit }: FancyProp) {
               );
             })
           : ""}
-        <input onChange={onInputChange} ref={ref} onKeyDown={onKeyDownHandle} />
+        <input
+          onChange={onInputChange}
+          ref={ref}
+          onKeyDown={onKeyDownHandle}
+          onSubmit={(event) => event.preventDefault()}
+        />
       </div>
       <ListOfItems />
     </div>

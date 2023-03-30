@@ -8,6 +8,7 @@ import { Dimentions } from "./Dimentions";
 export interface ProductDescribeProp {
   name: string;
   description: string;
+  brand: string;
 }
 
 export interface DimensionsProp {
