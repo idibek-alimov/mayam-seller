@@ -30,7 +30,7 @@ function DimensionsComponent({ dimensions, func }: PropInput) {
           type="number"
           name="length"
           className="dimension-input"
-          //value={dimensions.length}
+          value={dimensions && dimensions.length ? dimensions.length : ""}
           onChange={onChangeHandle}
         />
       </div>
@@ -40,7 +40,7 @@ function DimensionsComponent({ dimensions, func }: PropInput) {
           type="number"
           name="width"
           className="dimension-input"
-          // value={dimensions.width}
+          value={dimensions && dimensions.width ? dimensions.width : ""}
           onChange={onChangeHandle}
         />
       </div>
@@ -51,6 +51,7 @@ function DimensionsComponent({ dimensions, func }: PropInput) {
           name="height"
           className="dimension-input"
           //value={dimensions.width}
+          value={dimensions && dimensions.height ? dimensions.height : ""}
           onChange={onChangeHandle}
         />
       </div>

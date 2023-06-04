@@ -1,0 +1,102 @@
+.order-and-bought-box {
+  width: 60%;
+  min-height: 400px;
+  height: 450px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+.order-and-bought-box .buttons-box {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.order-and-bought-box .buttons-box .right-buttons {
+  margin-left: 20px;
+}
+.order-and-bought-box .buttons-box button {
+  cursor: pointer;
+  background-color: rgb(244, 243, 246);
+  width: 100px;
+  border: none;
+  padding: 15px;
+  color: #242424;
+  font-size: 15px;
+  font-weight: 600;
+}
+.order-and-bought-box .buttons-box .left {
+  border-radius: 5px 0 0 5px;
+}
+.order-and-bought-box .buttons-box .right {
+  border-radius: 0 5px 5px 0;
+}
+.order-and-bought-box .chart-div {
+  display: flex;
+  flex-direction: row;
+}
+.order-and-bought-box .chart-div .chart-summery {
+  width: 200px;
+  height: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.order-and-bought-box .chart-div .chart-summery .report {
+  font-size: 15px;
+  font-weight: 700;
+}
+.order-and-bought-box .chart-div .chart-summery .amount {
+  margin-top: 10px;
+  font-size: 15px;
+  color: gray;
+}
+.order-and-bought-box .chart-div .chart-summery .pieces {
+  font-size: 18px;
+  margin-top: 10px;
+}
+.order-and-bought-box .chart-div .chart-summery .sum {
+  margin-top: 10px;
+  font-size: 15px;
+  color: gray;
+}
+.order-and-bought-box .chart-div .chart-summery .somoni {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.custom-tooltip {
+  background-color: rgb(255, 255, 255);
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: #f5f2f2 0px 0px 2px 2px;
+}
+
+.user-statistic-box {
+  background-color: white;
+  width: 30%;
+  min-height: 450px;
+  height: max-content;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.user-statistic-box .balance-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 20px;
+  margin-top: 20px;
+}
+.user-statistic-box .balance-box span {
+  font-size: 20px;
+  font-weight: 600;
+  color: #242424;
+}
+.user-statistic-box .balance-box div {
+  font-size: 18px;
+  font-weight: 550;
+  color: #242424;
+}

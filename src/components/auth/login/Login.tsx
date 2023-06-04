@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import { AuthData } from "../../../extra/types/AuthData";
 import Axios, { url } from "../../../extra/axios";
+import axios from "axios";
 import { URLSearchParams } from "url";
 import { convertCompilerOptionsFromJson } from "typescript";
 import { useAppDispatch } from "../../../store/hooks";
@@ -14,16 +15,22 @@ const Login = () => {
     username: "",
     password: "",
   });
-  const axios = Axios();
+  //const axios = Axios();
   const navigate = useNavigate();
 
   const onSubmitHandle = () => {
     const qs = require("qs");
-    axios.post(url + "/login", qs.stringify(authData)).then((response) => {
-      dispatch(addToken(response.data));
-      dispatch(addUser({ username: authData.username }));
-      navigate("/");
-    });
+    console.log(authData);
+    console.log(qs.stringify(authData));
+    axios
+      .post(url + "/api/user/authenticate", authData) //, qs.stringify(authData))
+      .then((response) => {
+        console.log("response", response);
+        dispatch(addToken(response.data));
+        dispatch(addUser({ username: authData.username }));
+        navigate("/");
+      })
+      .catch((err) => console.log("error", err.response.status));
   };
   return (
     <div className="login-page-div">

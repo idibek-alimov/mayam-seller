@@ -1,4 +1,5 @@
 import { Article } from "./Article";
+import { Dimensions } from "./Dimensions";
 import { Inventory } from "./Inventory";
 
 export interface Product {
@@ -9,5 +10,10 @@ export interface Product {
   description?: string;
   // price?: number;
   // likes?: boolean;
-  articles: Article[];
+  articles?: Article[];
+  brand?: string;
+  tags?: string[];
+  category?: string;
+  gender?: string;
+  dimensions?: Dimensions;
 }

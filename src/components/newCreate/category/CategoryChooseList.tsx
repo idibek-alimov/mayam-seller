@@ -15,8 +15,7 @@ interface PropInput {
 
 const InputWithChooseList = ({ chosenCategory, func, linkText }: PropInput) => {
   const [category, setCategory] = useState({
-    text: chosenCategory,
-    valid: false,
+    text: chosenCategory ? chosenCategory : "",
   });
   const [data, setData] = useState<ObjectWithName[]>([]);
   const [show, setShow] = useState<Boolean>(false);
@@ -34,7 +33,7 @@ const InputWithChooseList = ({ chosenCategory, func, linkText }: PropInput) => {
   // }, []);
 
   const onChangeHandler = (text: string) => {
-    setCategory({ text: text, valid: false });
+    setCategory({ text: text });
     if (text === "") {
       axios
         .get(url + linkText.firstLink)
@@ -54,10 +53,15 @@ const InputWithChooseList = ({ chosenCategory, func, linkText }: PropInput) => {
   };
 
   useEffect(() => {
+    setCategory({
+      text: chosenCategory,
+    });
     axios
       .get(url + "/api/category/common/30")
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
+    if (chosenCategory) {
+    }
   }, []);
   return (
     <div className="category-input-div">
@@ -65,7 +69,8 @@ const InputWithChooseList = ({ chosenCategory, func, linkText }: PropInput) => {
         <input
           onClick={() => setShow(!show)}
           className="category-input"
-          value={category.text}
+          defaultValue={chosenCategory}
+          value={category && category.text ? category.text : ""}
           onChange={(event) => {
             onChangeHandler(event.target.value);
             //func(event.target.value);
@@ -99,8 +104,7 @@ const InputWithChooseList = ({ chosenCategory, func, linkText }: PropInput) => {
                     onClick={() => {
                       // alert("fuck you");
                       let placeholder;
-                      if (item.name)
-                        setCategory({ text: item.name, valid: true });
+                      if (item.name) setCategory({ text: item.name });
                       func(item.name);
                       setShow(!show);
                     }}

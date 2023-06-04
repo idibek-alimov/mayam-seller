@@ -1,9 +1,9 @@
 .top-div {
-  background-color: rgb(164, 164, 191);
+  background-color: white;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 10vh;
+  height: 40px;
   padding: 10px;
 }
 .top-div .top-top {
@@ -11,7 +11,7 @@
   align-items: center;
   flex-direction: row;
   text-decoration: none;
-  color: white;
+  color: #242424;
   font-size: 1.2rem;
 }
 

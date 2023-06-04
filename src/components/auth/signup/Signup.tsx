@@ -18,7 +18,7 @@ const Signup = () => {
   });
 
   const onSubmitHandle = () => {
-    axios.post(url + "/api/user/save", authData).then((response) => {
+    axios.post(url + "/api/user/register", authData).then((response) => {
       console.log(response);
       if (response.status === 201) {
         const qs = require("qs");

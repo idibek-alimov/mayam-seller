@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer } from "react";
 import "./Create.css";
 import { Category, emptyCategory } from "../../extra/types/Category";
 import Axios, { url } from "../../extra/axios";
-import FancyInput from "../create/productDescribe/FancyInput";
+//import FancyInput from "../create/productDescribe/FancyInput";
 import InputWithChooseList from "./category/CategoryChooseList";
 import { Dimensions, emptyDimensions } from "../../extra/types/Dimensions";
 import DimensionsComponent from "./dimension/Dimensions";
@@ -19,6 +19,7 @@ import { Inventory, emptyInventory } from "../../extra/types/Inventory";
 import { ProductToForm } from "../../extra/helperfunction/ProductInfoToForm";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
+import { ObjectWithName } from "../../extra/types/ObjectWithName";
 
 function Create() {
   const [category, setCategory] = useState<Category>(emptyCategory);
@@ -33,17 +34,20 @@ function Create() {
   let [inventories, setInventories] = useState<Inventory[][]>([
     [emptyInventory],
   ]);
+  let [gender, setGender] = useState<ObjectWithName>({ name: "" });
+  let [sellerArticle, setSellerArticle] = useState<string[]>([]);
   const [pics, setPics] = useState<File[][]>([[]]);
   const axios = Axios();
   const navigate = useNavigate();
   const access_token = useAppSelector((state) => state.token.access_token);
 
   const onSubmitHandle = (event: React.FormEvent<HTMLFormElement>) => {
+    console.log(sellerArticle);
     alert("Form submitting");
     event.preventDefault();
     let new_form_data = new FormData();
     new_form_data = ProductToForm({
-      product: nameAndDescription,
+      // product: nameAndDescription,
       inventory: inventories[0],
       color: { name: colors[0] },
       category: category,
@@ -51,8 +55,8 @@ function Create() {
       dimensions: dimensions,
       picture: pics[0],
       discount: { percentage: 20 },
-      gender: { name: "male" },
-      sellerArticle: "123523dss23",
+      gender: gender,
+      sellerArticle: sellerArticle[0],
     });
 
     axios
@@ -68,7 +72,7 @@ function Create() {
                 inventory: inventories[i],
                 color: { name: colors[i] },
                 picture: pics[i],
-                sellerArticle: "123523dss23",
+                sellerArticle: sellerArticle[i],
               })
             )
             .then((response) => console.log(res))
@@ -165,6 +169,15 @@ function Create() {
                 }}
               />
             </div>
+            <div className="category-box" style={{ marginTop: 20 }}>
+              <span className="gray-name">Gender</span>
+              <SimpleInput
+                text={gender.name}
+                func={function (text: string) {
+                  setGender({ name: text });
+                }}
+              />
+            </div>
             {/* <div className="category-box" style={{ marginTop: 20 }}>
               <span className="gray-name">Brand</span>
               <BrandOrTag
@@ -212,6 +225,8 @@ function Create() {
                 setInventories={setInventories}
                 pics={pics}
                 setPics={setPics}
+                sellerArticle={sellerArticle}
+                setSellerArticle={setSellerArticle}
               />
             </div>
           </div>

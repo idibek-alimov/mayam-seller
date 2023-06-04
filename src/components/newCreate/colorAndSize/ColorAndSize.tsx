@@ -14,6 +14,7 @@ import InventoryInput from "./inventoryInput/InventoryInput";
 import { AiOutlinePlus, AiOutlineDelete } from "react-icons/ai";
 import { publicEncrypt } from "crypto";
 import InputWithChooseList from "../category/CategoryChooseList";
+import SimpleInput from "../input/SimpleInput";
 
 interface AddPicturesProp {
   width: string | number;
@@ -26,11 +27,13 @@ interface ColorAndSizeProp {
   pics: File[][];
   colors: string[];
   inventories: Inventory[][];
+  sellerArticle: string[];
   //category?: Category;
   //setArticles?: React.Dispatch<React.SetStateAction<any>>;
   setPics: React.Dispatch<React.SetStateAction<any>>;
   setColors: React.Dispatch<React.SetStateAction<any>>;
   setInventories: React.Dispatch<React.SetStateAction<any>>;
+  setSellerArticle: React.Dispatch<React.SetStateAction<any>>;
   func?: (arr: string[][]) => void;
 }
 
@@ -41,6 +44,8 @@ function ColorAndSize({
   setInventories,
   pics,
   setPics,
+  sellerArticle,
+  setSellerArticle,
 }: ColorAndSizeProp) {
   //let colorindex = 0;
   const [colorindex, setColorIndex] = useState(0);
@@ -54,12 +59,15 @@ function ColorAndSize({
     let placeHolder = colors;
     let inventoryPlaceHolder = inventories;
     let picsPlaceholder = pics;
+    let sellerArticlePlaceholder: string[] = sellerArticle;
     placeHolder.push("");
+    sellerArticle.push("");
     inventoryPlaceHolder.push([emptyInventory]);
     picsPlaceholder.push([]);
     setColors(placeHolder);
     setInventories(inventoryPlaceHolder);
     setPics(picsPlaceholder);
+    setSellerArticle(sellerArticlePlaceholder);
     //console.log("inventory after add color", inventoryPlaceHolder);
     handleClick();
   };
@@ -69,12 +77,15 @@ function ColorAndSize({
       let placeHolder: string[] = [...colors];
       let inventoryPlaceHolder: Inventory[][] = [...inventories];
       let picsPlaceholder: File[][] = [...pics];
+      let sellerArticlePlaceholder: string[] = [...sellerArticle];
       placeHolder.splice(index, 1);
       inventoryPlaceHolder.splice(index, 1);
       picsPlaceholder.splice(index, 1);
+      sellerArticlePlaceholder.splice(index, 1);
       setColors(placeHolder);
       setInventories(inventoryPlaceHolder);
       setPics(picsPlaceholder);
+      setSellerArticle(sellerArticlePlaceholder);
 
       handleClick();
       if (colorindex > placeHolder.length - 1) {
@@ -208,20 +219,21 @@ function ColorAndSize({
           : ""}
         {/* <ColorBox text="Color 1" /> */}
       </div>
-
       <div className="category-box" style={{ marginTop: 20 }}>
-        <span className="gray-name">Colors</span>
-        {/* <BrandOrTag
-          data={colors[colorindex]}
-          func={function (colorarray: string[]) {
-            let placeholder: string[][] = colors;
-
-            placeholder[colorindex] = colorarray;
-
-            setColors(placeholder);
+        <span className="gray-name">Seller article</span>
+        <SimpleInput
+          text={sellerArticle[colorindex]}
+          func={function (text: string) {
+            console.log("seller article", text);
+            let sellerArticlePlaceholder: string[] = sellerArticle;
+            sellerArticlePlaceholder[colorindex] = text;
+            setSellerArticle(sellerArticlePlaceholder);
             handleClick();
           }}
-        /> */}
+        />
+      </div>
+      <div className="category-box" style={{ marginTop: 20 }}>
+        <span className="gray-name">Colors</span>
         <InputWithChooseList
           chosenCategory={colors[colorindex]}
           func={function (name: string) {
@@ -233,6 +245,7 @@ function ColorAndSize({
           linkText={{ firstLink: "", secondLink: "/api/color/name/similar/" }}
         />
       </div>
+
       <div
         className="category-box"
         style={{ marginTop: 20, alignItems: "flex-start" }}

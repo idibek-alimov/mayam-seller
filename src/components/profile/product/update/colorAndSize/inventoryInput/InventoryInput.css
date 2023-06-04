@@ -1,0 +1,35 @@
+.inventory-box {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.inventory-box .input-box {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+.inventory-box .input-box label {
+  font-weight: 300;
+  margin-bottom: 5px;
+}
+.inventory-box .input-box input {
+  border: 1px solid rgb(204, 188, 188);
+  outline: none;
+  padding: 10px 5px 10px 5px;
+  font-size: 15px;
+  border-radius: 3px;
+}
+.inventory-box .input-box input:focus {
+  border: 1px solid blueviolet;
+}
+.inventory-box .size-delete-box {
+  width: 30px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  cursor: pointer;
+}

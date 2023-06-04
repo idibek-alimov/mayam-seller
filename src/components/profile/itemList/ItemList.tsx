@@ -1,42 +1,53 @@
 import React, { useState, useEffect } from "react";
 import "./ItemList.css";
-import axios from "axios";
-import { useAppSelector } from "../../../store/hooks";
-import { Article } from "../../../extra/types/Article";
 import ItemCard from "../itemCard/ItemCard";
-import { url } from "../../../extra/axios";
-const ItemList = () => {
-  const [myArticles, setMyArticles] = useState<Article[]>();
-  const access_token = useAppSelector((state) => state.token.access_token);
+import Axios, { url } from "../../../extra/axios";
+import { ArticleCreateType } from "../../../extra/types/create/ArticleCreateType";
 
-  let custom_headers = access_token
-    ? { Authorization: String("Bearer " + access_token) }
-    : { Authorization: String("") };
+interface ItemListProp {
+  pathURL: string;
+}
 
-  const axioss = axios.create({
-    headers: custom_headers,
-    baseURL: "http://localhost:8080/api/product",
-  });
+const ItemList = ({ pathURL }: ItemListProp) => {
+  const [myArticles, setMyArticles] = useState<ArticleCreateType[]>();
+
+  const axios = Axios();
+
   useEffect(() => {
-    axioss
-      .get(url + "/api/article/byuser")
+    //"/api/article/user/presentable/true"
+    axios
+      .get(url + pathURL)
       .then((res) => {
         console.log(res.data);
         setMyArticles(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
+
   return (
-    <div>
-      {myArticles
-        ? myArticles.map((article, index) => {
-            return (
-              <div>
-                <ItemCard {...article} />
-              </div>
-            );
-          })
-        : ""}
+    <div className="item-list-box">
+      <table className="item-list-info">
+        <thead className="item-card-x">
+          <tr>
+            <th className="item-card-img"></th>
+            <th className="item-card-category">Предмет</th>
+            <th className="item-card-brand">Бренд</th>
+            <th className="item-card-seller-article">Артикул продовца</th>
+            <th className="item-card-color">Цвет</th>
+            <th className="item-card-size">Размер</th>
+            <th className="item-card-id">Артикул MM</th>
+            <th className="item-card-edit"></th>
+            <th className="item-card-delete"></th>
+          </tr>
+        </thead>
+        <tbody className="item-list-body">
+          {myArticles
+            ? myArticles.map((article, index) => {
+                return <ItemCard {...article} key={index} />;
+              })
+            : ""}
+        </tbody>
+      </table>
     </div>
   );
 };

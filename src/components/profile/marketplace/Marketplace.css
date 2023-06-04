@@ -1,0 +1,41 @@
+.market-box {
+  min-height: 100vh;
+}
+.market-box .market-wrapper {
+  position: relative;
+  margin: 2%;
+  border-radius: 10px;
+  min-height: 100vh;
+  height: fit-content;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+.market-box .market-wrapper .orders {
+  text-align: start;
+  font-size: 30px;
+  font-weight: 500;
+}
+.market-box .market-wrapper .options {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 400px;
+  margin-top: 30px;
+  border-bottom: 1px solid #d4d4d4;
+  font-size: 18px;
+  cursor: pointer;
+}
+.market-box .market-wrapper .options span {
+  padding-bottom: 5px;
+}
+.market-box .market-wrapper .options span:hover {
+  color: blueviolet;
+}
+
+.market-box .market-wrapper .options .chosen {
+  border: none;
+  border-bottom: 2px solid blueviolet;
+}

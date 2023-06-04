@@ -1,0 +1,48 @@
+.main-div {
+  background-color: white;
+  box-shadow: rgb(240, 237, 237) 0px 0px 0px 0px;
+  border-top: 1px solid gray;
+  width: 100%;
+  padding-top: 20px;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.main-div .main-option-list {
+  margin-top: 2%;
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.main-div .main-option-list .add-product-button {
+  border: none;
+  background-color: blueviolet;
+  border-radius: 3px;
+  color: white;
+  padding: 10px 10px 10px 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.main-div .main-option-list .add-product-button:hover {
+  background-color: rgb(144, 74, 209);
+}
+.main-div .main-option-list .list-option-span {
+  margin-left: 25px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  padding: 10px 10px 10px 10px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+.main-div .main-option-list .chosen {
+  background-color: rgb(238, 230, 230);
+}
+.main-div .main-product-list {
+  width: 95%;
+  /* background-color: yellow; */
+}
